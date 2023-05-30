@@ -1,11 +1,14 @@
 package com.reservation.config;
 
 
-import com.schedulereservation.config.jwt.JwtAuthenticationFilter;
-import com.schedulereservation.config.jwt.JwtAuthorizationFilter;
+import com.reservation.config.jwt.JwtAuthenticationFilter;
+import com.reservation.config.jwt.JwtAuthorizationFilter;
+import com.reservation.enu.UserEnum;
+import com.reservation.util.CustomResponseUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -35,6 +38,7 @@ public class SecurityConfig {
             super.configure(builder);
         }
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.headers().frameOptions().disable(); //iframe 이용안함 -> 웹사이트안에 다른웹사이트 열지못하게
@@ -52,22 +56,22 @@ public class SecurityConfig {
         http.apply(new CustomSecurityFilterManager());
 
         // 인증실패
-//        http.exceptionHandling().authenticationEntryPoint((request, response, authenticationException)->{
-//            CustomResponseUtil.fail(response, "로그인을 진행해 주세요", HttpStatus.UNAUTHORIZED);
-//        });
+        http.exceptionHandling().authenticationEntryPoint((request, response, authenticationException)->{
+            CustomResponseUtil.fail(response, "로그인을 진행해 주세요", HttpStatus.UNAUTHORIZED);
+        });
 
 
         //권한실패
-//        http.exceptionHandling().accessDeniedHandler(((request, response, e) -> {
-//            CustomResponseUtil.fail(response,"권한이 없습니다.", HttpStatus.FORBIDDEN);
-//        }));
+        http.exceptionHandling().accessDeniedHandler(((request, response, e) -> {
+            CustomResponseUtil.fail(response,"권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }));
 
 
-//        http.authorizeRequests()
-//                .antMatchers("/api/s/**").authenticated()
-//                .antMatchers("api/admin/**").hasRole("" + UserEnum.ADMIN) // prefix로 ROLE_이 들어감
-//                .anyRequest().permitAll();
-//
+        http.authorizeRequests()
+                .antMatchers("/api/a/**").authenticated()
+                .antMatchers("api/admin/**").hasRole("" + UserEnum.ADMIN) // prefix로 ROLE_이 들어감
+                .anyRequest().permitAll();
+
         return http.build();
     }
 
