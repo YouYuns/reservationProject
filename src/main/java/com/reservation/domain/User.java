@@ -3,6 +3,7 @@ package com.reservation.domain;
 
 import com.reservation.config.BaseEntity;
 import com.reservation.enu.UserEnum;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 
 
 @NoArgsConstructor
+@Table(name = "user_tb")
 @Getter
 @Entity
 public class User extends BaseEntity {
@@ -34,4 +36,13 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private UserEnum role;
 
+    @Builder
+    public User(Long id, String email, String passward, String name, Long tel, UserEnum role) {
+        this.id = id;
+        this.email = email;
+        this.passward = passward;
+        this.name = name;
+        this.tel = tel;
+        this.role = role;
+    }
 }

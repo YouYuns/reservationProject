@@ -10,6 +10,6 @@ public enum UserEnum {
     ADMIN("관리자"), CUSTOMER("고객");
 
     @Getter
-    private final String role;
+    private final String value;
 
 }
