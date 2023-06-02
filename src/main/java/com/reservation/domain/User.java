@@ -30,14 +30,14 @@ public class User extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private Long tel;
+    private String tel;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserEnum role;
 
     @Builder
-    public User(Long id, String email, String passward, String name, Long tel, UserEnum role) {
+    public User(Long id, String email, String passward, String name, String tel, UserEnum role) {
         this.id = id;
         this.email = email;
         this.passward = passward;
