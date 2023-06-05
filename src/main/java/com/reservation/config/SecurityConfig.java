@@ -23,7 +23,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Log4j2
 public class SecurityConfig {
 
-    private BCryptPasswordEncoder passwordEncoder(){
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
         log.debug("디버그 : BCryptPasswordEncoder 등록");
         return new BCryptPasswordEncoder();
 
